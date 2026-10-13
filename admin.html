@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Youth Minister's Cohort Cameroon Dashboard</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9C%9D%3C/text%3E%3C/svg%3E">
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0B3D2E">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Alpha Cohort">
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- Header -->
+    <header>
+        <div class="title">
+            <h1>✝ Alpha Youth Minister's Cohort Cameroon</h1>
+            <p id="todayDate">Loading...</p>
+        </div>
+
+        <div class="top-buttons">
+            <button id="themeToggle" title="Toggle dark mode">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button id="addPastorBtn" class="btn-add-pastor">
+                <i class="fa-solid fa-user-plus"></i> Add Pastor
+            </button>
+            <button id="printBtn" class="btn-print">
+                <i class="fa-solid fa-print"></i> Print
+            </button>
+            <button id="exportBtn">
+                <i class="fa-solid fa-file-csv"></i> Export
+            </button>
+            <button id="refreshBtn">
+                <i class="fa-solid fa-rotate-right"></i> Refresh
+            </button>
+            <button id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+        </div>
+    </header>
+
+    <!-- Meeting Status -->
+    <section class="meeting-status">
+        <div class="meeting-left">
+            <h2>Today's Meeting</h2>
+            <p>Wednesday Alpha Youth Minister's Cohort Cameroon</p>
+        </div>
+        <div class="meeting-right">
+            <div class="status status-closed" id="meetingStatus">🔴 Meeting Closed</div>
+            <button id="meetingToggleBtn" class="toggle-meeting-btn btn-open" title="Open or close today's meeting">
+                <i class="fa-solid fa-lock-open"></i> Open Meeting
+            </button>
+        </div>
+    </section>
+
+    <!-- Meeting Activity Log -->
+    <section class="activity-log-card">
+        <div class="activity-log-header">
+            <h2 class="section-title" style="margin-bottom: 0;">📋 Meeting Activity Log</h2>
+            <button id="clearLogBtn" class="clear-log-btn" title="Hide open/close log for this meeting">
+                <i class="fa-solid fa-eye-slash"></i> Clear Log
+            </button>
+        </div>
+        <div id="activityLog" class="activity-log"></div>
+    </section>
+
+    <!-- Analytics & Statistics -->
+    <section class="stats">
+        <div class="card">
+            <div class="icon">👥</div>
+            <div>
+                <h3>Present</h3>
+                <h1 id="presentCount">0</h1>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="icon">⛪</div>
+            <div>
+                <h3>Churches</h3>
+                <h1 id="churchCount">0</h1>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="icon">🌍</div>
+            <div>
+                <h3>Countries</h3>
+                <h1 id="countryCount">0</h1>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="icon">📈</div>
+            <div>
+                <h3>Progress</h3>
+                <h1 id="percent">0%</h1>
+            </div>
+        </div>
+    </section>
+
+    <!-- Progress -->
+    <section class="progress-card">
+        <div class="progress-top">
+            <span>Attendance Progress <button id="editGoalBtn" title="Set expected attendance goal"><i class="fa-solid fa-pen"></i></button></span>
+            <span id="progressText">0%</span>
+        </div>
+        <div class="progress">
+            <div id="progressBar"></div>
+        </div>
+    </section>
+
+    <!-- Search & Filter Controls -->
+    <section class="search-box">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" id="search" placeholder="Search pastors, churches, or countries...">
+        <select id="countryFilterSelect">
+            <option value="">All Countries</option>
+        </select>
+        <select id="sortSelect" title="Sort attendance">
+            <option value="recent">Most Recent</option>
+            <option value="name">Name (A-Z)</option>
+            <option value="church">Church (A-Z)</option>
+            <option value="country">Country (A-Z)</option>
+        </select>
+    </section>
+
+    <!-- Attendance History & List -->
+    <section>
+        <div class="attendance-header-wrapper">
+            <h2 class="section-title" id="attendanceListTitle" style="margin-bottom: 0;">Today's Attendance</h2>
+            <div class="view-meeting-wrapper">
+                <label for="meetingDateSelect">📅 View Meeting:</label>
+                <select id="meetingDateSelect">
+                    <option value="">Loading dates...</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="attendanceList"></div>
+    </section>
+
+</div>
+
+<!-- Manual Entry Modal -->
+<div id="addPastorModal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fa-solid fa-user-plus"></i> Add Pastor Manually</h2>
+            <button type="button" class="modal-close-icon" id="closeModalX">&times;</button>
+        </div>
+        <p class="modal-subtitle">Register an attendee directly into the system database.</p>
+        <form id="addPastorForm">
+            <div class="input-group">
+                <label for="manualName"><i class="fa-solid fa-user"></i> Full Name</label>
+                <input type="text" id="manualName" placeholder="e.g. Pastor John Doe" required>
+            </div>
+            <div class="input-group">
+                <label for="manualChurch"><i class="fa-solid fa-church"></i> Church / Ministry</label>
+                <input type="text" id="manualChurch" placeholder="e.g. Grace Chapel">
+            </div>
+            <div class="input-group">
+                <label for="manualCountry"><i class="fa-solid fa-globe"></i> Country</label>
+                <input type="text" id="manualCountry" placeholder="e.g. Cameroon" required>
+            </div>
+            <div class="modal-buttons">
+                <button type="button" id="closeModalBtn" class="btn-cancel">Cancel</button>
+                <button type="submit" class="btn-save"><i class="fa-solid fa-check"></i> Save Entry</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="js/admin.js"></script>
+<script>
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
+  }
+</script>
+</body>
+</html>
